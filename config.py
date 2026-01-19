@@ -8,7 +8,8 @@ N_ENVS = 8  # Number of parallel environments for training
 FRAME_STACK = 4  # Number of frames to stack for temporal information
 
 # PPO Hyperparameters
-LEARNING_RATE = 3e-4  # Standard learning rate for PPO
+LEARNING_RATE = 3e-4  # Initial learning rate for PPO
+USE_LINEAR_LR_DECAY = True  # Linearly decay learning rate to 0
 N_STEPS = 2048  # Number of steps to collect before each update
 BATCH_SIZE = 64  # Minibatch size for optimization
 N_EPOCHS = 10  # Number of epochs for optimization
@@ -28,4 +29,5 @@ MODEL_NAME = "ppo_carracing"  # Base name for saved models
 
 # Evaluation settings
 N_EVAL_EPISODES = 10  # Number of episodes for evaluation
+EVAL_FREQ = 10_000  # Evaluate every N steps during training
 RENDER_EVAL = False  # Whether to render during evaluation

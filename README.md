@@ -79,9 +79,13 @@ Then open http://localhost:6006 in your browser to see:
 
 ### Evaluation
 
-Evaluate a trained model:
+Evaluate a trained model. The training automatically saves the best performing model:
 
 ```bash
+# Evaluate the best model (recommended)
+python evaluate.py --model-path models/best_model.zip
+
+# Or evaluate the final model
 python evaluate.py --model-path models/ppo_carracing_final.zip
 ```
 
@@ -92,8 +96,10 @@ Options:
 
 Example with rendering:
 ```bash
-python evaluate.py --model-path models/ppo_carracing_final.zip --n-episodes 5 --render
+python evaluate.py --model-path models/best_model.zip --n-episodes 5 --render
 ```
+
+**Note**: The `best_model.zip` is automatically saved based on evaluation performance during training, so it often performs better than the final checkpoint.
 
 ## Configuration
 
@@ -101,13 +107,15 @@ Hyperparameters can be adjusted in `config.py`:
 
 ### Key Hyperparameters
 
-- **Learning Rate**: 3e-4 (standard for PPO)
+- **Learning Rate**: 3e-4 (standard for PPO) with linear decay to 0
+- **LR Schedule**: Linear decay prevents late-training degradation
 - **Steps per Update**: 2048 episodes collected before each policy update
 - **Batch Size**: 64 for gradient descent
 - **Epochs**: 10 optimization epochs per update
 - **Discount Factor (γ)**: 0.99
 - **GAE Lambda (λ)**: 0.95 for advantage estimation
 - **Total Timesteps**: 1,000,000 (sufficient for baseline performance)
+- **Evaluation**: Every 10,000 steps to track and save best model
 
 ### Environment Settings
 
